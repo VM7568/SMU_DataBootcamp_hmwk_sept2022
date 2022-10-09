@@ -1,2 +1,2 @@
 # SMU_DataBootcamp_hmwk_sept2022
-SMU Bootcamp HomeWork
+SMU Data BootCamp Homework
