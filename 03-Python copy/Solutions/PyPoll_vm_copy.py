@@ -33,11 +33,8 @@ with open(csvpath, encoding='utf-8') as csvfile:
             winner = max([candidate])
         else:
             pass
- 
-# for x in votes.keys():
-#     results=(f"{x}: {votes[x]} total votes, which is {round((100*votes[x]/rows),3)}%")
-#     print(results)
-           
+
+
 print("\nElection Results\n----------------------------")            
 print(f"Total Votes: {rows}\n----------------------------")
 for x in votes.keys():
