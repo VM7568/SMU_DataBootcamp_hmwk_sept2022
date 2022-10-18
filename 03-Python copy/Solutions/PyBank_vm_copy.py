@@ -52,7 +52,7 @@ print(analysis)
 
 # https://www.pythontutorial.net/python-basics/python-write-text-file/
 file1=open('Solutions/pybankvm.txt', 'w', encoding='utf-8')
-lines=((f'\nFinancial Analysis\n----------------------------\n') + (f'{analysis}'))
-file1.writelines(lines)
+analys2=((f'\nFinancial Analysis\n----------------------------\n') + (f'{analysis}'))
+file1.writelines(analys2)
 file1.close()
     

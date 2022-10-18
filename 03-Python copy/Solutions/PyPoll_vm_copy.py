@@ -45,7 +45,7 @@ print(f"Winner: {winner}\n----------------------------\n")
 
 # https://www.pythontutorial.net/python-basics/python-write-text-file/
 file1=open('Solutions/pypollvm.txt', 'w', encoding='utf-8')
-lines=((f"\nElection Results\n----------------------------\nTotal Votes: {rows}\n----------------------------\n") + 
+report=((f"\nElection Results\n----------------------------\nTotal Votes: {rows}\n----------------------------\n") +
        (f"{results}\n----------------------------\nWinner: {winner}\n----------------------------\n"))
-file1.writelines(lines)
+file1.writelines(report)
 file1.close()
