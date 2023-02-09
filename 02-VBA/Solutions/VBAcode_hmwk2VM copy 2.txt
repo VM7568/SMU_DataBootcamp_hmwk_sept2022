@@ -1,0 +1,116 @@
+Option Explicit
+Sub Stocks():
+    Const VOLUME_COL As Integer = 7
+    
+    Dim total_volume As Double
+    Dim stock As String
+    Dim row As Long
+    Dim openingPrice As Double
+    Dim closingPrice As Double
+    Dim yearlyChange As Double
+    Dim percentChange As Double
+    Dim lRow As Long
+    Dim ws As Worksheet
+    
+    For Each ws In Worksheets
+        Application.ScreenUpdating = True
+        ws.Activate
+        
+        total_volume = 0
+        
+        'find the last non blank cell
+        lRow = ws.Cells(Rows.Count, 1).End(xlUp).row
+        
+        ' Keep track of the location for each  in the summary table
+        Dim Summary_Table_Row As Integer
+        Summary_Table_Row = 2
+          
+        ' this is the first price of the first stock
+        openingPrice = ws.Cells(2, 3).Value
+    
+        ' for each row
+            For row = 2 To lRow
+                
+                ' get stock in that row
+                stock = ws.Cells(row, 1).Value
+                
+                ' if stock in the next row is different
+                If (stock <> ws.Cells(row + 1, 1).Value) Then
+                    ' finish the sum by getting value from the last row of the group
+                    total_volume = total_volume + ws.Cells(row, VOLUME_COL).Value
+                   Debug.Print (stock)
+                   
+                    'get closing price, yearly change, percent change
+                    closingPrice = ws.Cells(row, 6).Value
+                    yearlyChange = closingPrice - openingPrice
+                    percentChange = yearlyChange / openingPrice
+                    
+                    'write out to the summary table
+                    ws.Cells(Summary_Table_Row, 9).Value = stock
+                    ws.Cells(Summary_Table_Row, 10).Value = yearlyChange
+                    ws.Cells(Summary_Table_Row, 11).Value = percentChange
+                    ws.Cells(Summary_Table_Row, 12).Value = total_volume
+            
+                'color change
+                If (yearlyChange > 0) Then
+                    ws.Cells(Summary_Table_Row, 10).Interior.ColorIndex = 4
+                Else
+                    ws.Cells(Summary_Table_Row, 10).Interior.ColorIndex = 3
+                End If
+                
+            total_volume = 0
+            Summary_Table_Row = Summary_Table_Row + 1
+            
+            'next row, is first row of next stock
+            openingPrice = ws.Cells(row + 1, 3).Value
+            
+            Else
+                total_volume = total_volume + ws.Cells(row, VOLUME_COL).Value
+                
+            End If
+    
+        Next row
+    
+    'Bonus
+        Dim j As Integer
+        Dim volTicker As String
+        Dim maxVolume As Double
+        Dim maxpercTicker As String
+        Dim maxPercent As Double
+        Dim minpercTicker As String
+        Dim minPercent As Double
+        
+        maxVolume = 0
+        maxPercent = 0
+        minPercent = 0
+        
+        For j = 2 To Summary_Table_Row - 1
+            
+            If ws.Cells(j, 12).Value > maxVolume Then
+                maxVolume = ws.Cells(j, 12).Value
+                volTicker = ws.Cells(j, 9).Value
+            End If
+            
+            If ws.Cells(j, 11).Value < minPercent Then
+                minPercent = ws.Cells(j, 11).Value
+                minpercTicker = ws.Cells(j, 9).Value
+            End If
+               
+            If ws.Cells(j, 11).Value > maxPercent Then
+                maxPercent = ws.Cells(j, 11).Value
+                maxpercTicker = ws.Cells(j, 9).Value
+            End If
+            
+        Next j
+        
+        ws.Range("P4").Value = volTicker
+        ws.Range("Q4").Value = maxVolume
+        ws.Range("P3").Value = minpercTicker
+        ws.Range("Q3").Value = minPercent
+        ws.Range("P2").Value = maxpercTicker
+        ws.Range("Q2").Value = maxPercent
+        
+    Next ws
+    
+End Sub
+

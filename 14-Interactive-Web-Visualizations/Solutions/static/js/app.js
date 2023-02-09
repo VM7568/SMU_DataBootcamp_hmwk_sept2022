@@ -1,6 +1,6 @@
 var data = {};
 
-d3.json("./samples.json").then(function (inp_data) {
+d3.json("./data/samples.json").then(function (inp_data) {
   console.log(inp_data);
   data = inp_data; // save to global variable
 
